@@ -12,8 +12,8 @@ const NoteService = () => {
     })
   }
 
-  const saveNoteItem = () => {
-    axios.post(noteApiLink + 'save', noteItemJson)
+  const saveNoteItem = async () => {
+    await axios.post(noteApiLink + 'save', noteItemJson)
   }
 
   return {

@@ -98,7 +98,7 @@ const linksList = [
     title: 'Melo Baba',
     caption: 'Melo Baba Caption',
     icon: 'favorite',
-    link: 'pages/NotePage'
+    link: '#/pages/NotePage'
   }
 ]
 
