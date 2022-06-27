@@ -6,15 +6,14 @@
       :rows="notes"
       :columns="Columns"
       row-key="name"
-      :selected-rows-label="getSelectedString"
-      selection="multiple"
       v-model:selected="selected"
+      selection="single"
       v-if="notes.length > 0"
     >
 
     <template #body-cell-update="props">
       <q-td :props="props">
-        <q-btn dense round flat color="grey" @click="listNotes" icon="edit"></q-btn>
+        <q-btn dense round flat color="grey" @click="noteSelected(props.rowIndex)" icon="edit"></q-btn>
       </q-td>
     </template>
 
@@ -33,7 +32,7 @@ export default defineComponent({
   name: 'NoteList',
   setup () {
     const { getAllNotes, noteItemJson, notes } = noteService()
-    const Columns = [{ name: 'noteId', label: 'Note Id', field: 'noteId' }, { label: 'Title', field: 'title' }, { label: 'Description', field: 'description' }, { label: 'Content', field: 'content' }, { label: 'Update', field: '' }]
+    const Columns = [{ name: 'noteId', label: 'Note Id', field: 'noteId' }, { label: 'Title', field: 'title' }, { label: 'Description', field: 'description' }, { label: 'Content', field: 'content' }, { label: 'Update', field: '', name: 'update' }]
     const selected = ref([])
     return {
       notes,
@@ -41,22 +40,15 @@ export default defineComponent({
       Columns,
       async listNotes () {
         await getAllNotes()
-        for (let i = 0; i < notes.length; i++) {
-          notes[i].update = '<q-btn @click="noteSelected(index)" style="width: 100px;">Select</q-btn>'
-        }
       },
       noteSelected (idx) {
-        debugger
         noteItemJson.id = notes.value[idx].id
         noteItemJson.noteId = notes.value[idx].noteId
         noteItemJson.title = notes.value[idx].title
         noteItemJson.description = notes.value[idx].description
         noteItemJson.content = notes.value[idx].content
       },
-      selected,
-      getSelectedString () {
-        return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${notes.length}`
-      }
+      selected
     }
   }
 })
