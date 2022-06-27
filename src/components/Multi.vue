@@ -1,79 +1,72 @@
 <template>
-  <div class="q-pa-md">
-    <q-table
-      title="Treats"
-      :rows="notes"
-      :columns="Columns"
-      row-key="name"
-      :selected-rows-label="getSelectedString"
-      selection="multiple"
-      v-model:selected="selected"
-      v-if="notes.length > 0"
+  <q-table
+  :rows="rows"
+  :columns="columns"
+  row-key="id"
+>
+  <template #body-cell-name="props">
+    <q-td
+      class="bg-blue-1"
+      :props="props"
     >
-    <template #body-cell="props">
-    <!--template v-slot:body-cell-actions="props"-->
-      <q-td :props="props">
-        <q-btn dense round flat color="grey" @click="listNotes" icon="edit"></q-btn>
-        <q-btn dense round flat color="grey" @click="listNotes" icon="delete"></q-btn>
-      </q-td>
-    </template>
-    <!--template #body-cell="props">
-      <q-td
-        :props="props"
-      >
-        <q-btn
-          flat
-          color="primary"
-          :label="props.value"
-          @click="listNotes"
-        />
-        <q-btn
-          flat
-          color="primary"
-          :label="props.value"
-          @click="listNotes"
-        />
-      </q-td>
-    </template-->
-    </q-table>
-    <div class="q-mt-md">
-      Selected: {{ JSON.stringify(selected) }}
-    </div>
-  </div>
+      {{ props.value }}
+    </q-td>
+  </template>
+
+  <template #body-cell-email="props">
+    <q-td
+      class="bg-blue-2"
+      :props="props"
+    >
+      {{ props.value }}
+    </q-td>
+  </template>
+
+  <template
+    #body-cell-age="props"
+  >
+    <q-td
+      class="bg-blue-1"
+      :props="props"
+    >
+      {{ props.value }}
+    </q-td>
+  </template>
+</q-table>
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
-import noteService from './NoteService.js'
+import { copyToClipboard } from 'quasar'
+import { ref } from 'vue'
 
-export default defineComponent({
+export default {
   setup () {
-    const { getAllNotes, noteItemJson, notes } = noteService()
-    const Columns = [{ name: 'noteId', label: 'Note Id', field: 'noteId' }, { label: 'Title', field: 'title' }, { label: 'Description', field: 'description' }, { label: 'Content', field: 'content' }, { label: 'Update', field: '' }]
-    const selected = ref([])
-    return {
-      notes,
-      noteItemJson,
-      Columns,
-      async listNotes () {
-        await getAllNotes()
-        for (let i = 0; i < notes.length; i++) {
-          notes[i].update = '<q-btn @click="noteSelected(index)" style="width: 100px;">Select</q-btn>'
-        }
+    const rows = ref([
+      {
+        id: 1,
+        name: 'Panda',
+        email: 'panda@chihuahua.com',
+        age: 6
       },
-      noteSelected (idx) {
-        debugger
-        noteItemJson.id = notes.value[idx].id
-        noteItemJson.noteId = notes.value[idx].noteId
-        noteItemJson.title = notes.value[idx].title
-        noteItemJson.description = notes.value[idx].description
-        noteItemJson.content = notes.value[idx].content
-      },
-      selected,
-      getSelectedString () {
-        return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${notes.length}`
+      {
+        id: 2,
+        name: 'Lily',
+        email: 'lily@chihuahua.com',
+        age: 5
       }
+    ])
+
+    const columns = ref([
+      { label: 'name', field: 'name', name: 'name', align: 'left' },
+      { label: 'email', field: 'email', name: 'email', align: 'left' },
+      { label: 'age', field: 'age', name: 'age', align: 'center' }
+    ])
+
+    return {
+      copyToClipboard,
+      rows,
+      columns
     }
   }
-})
+}
 </script>

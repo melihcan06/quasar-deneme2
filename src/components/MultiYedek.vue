@@ -10,31 +10,13 @@
       v-model:selected="selected"
       v-if="notes.length > 0"
     >
-    <template #body-cell="props">
-    <!--template v-slot:body-cell-actions="props"-->
+
+    <template #body-cell-update="props">
       <q-td :props="props">
         <q-btn dense round flat color="grey" @click="listNotes" icon="edit"></q-btn>
-        <q-btn dense round flat color="grey" @click="listNotes" icon="delete"></q-btn>
       </q-td>
     </template>
-    <!--template #body-cell="props">
-      <q-td
-        :props="props"
-      >
-        <q-btn
-          flat
-          color="primary"
-          :label="props.value"
-          @click="listNotes"
-        />
-        <q-btn
-          flat
-          color="primary"
-          :label="props.value"
-          @click="listNotes"
-        />
-      </q-td>
-    </template-->
+
     </q-table>
     <div class="q-mt-md">
       Selected: {{ JSON.stringify(selected) }}
@@ -49,7 +31,7 @@ import noteService from './NoteService.js'
 export default defineComponent({
   setup () {
     const { getAllNotes, noteItemJson, notes } = noteService()
-    const Columns = [{ name: 'noteId', label: 'Note Id', field: 'noteId' }, { label: 'Title', field: 'title' }, { label: 'Description', field: 'description' }, { label: 'Content', field: 'content' }, { label: 'Update', field: '' }]
+    const Columns = [{ name: 'noteId', label: 'Note Id', field: 'noteId' }, { label: 'Title', field: 'title' }, { label: 'Description', field: 'description' }, { label: 'Content', field: 'content' }, { label: 'Update', field: '', name: 'update' }]
     const selected = ref([])
     return {
       notes,
