@@ -9,7 +9,7 @@
     <label for="note">Note:</label>
     <input type="text" id="note" v-model="noteItemJson.content">
     <br><br>
-    <button @click="saveNote">Save</button>
+    <q-btn @click="saveNote">Save</q-btn>
 </template>
 
 <script>
