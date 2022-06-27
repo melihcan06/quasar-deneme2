@@ -2,23 +2,24 @@
     <q-btn @click="listNotes">List Notes</q-btn>
     <div class="q-pa-md">
     <q-table
-      title="Treats"
+      title="Not List"
       :rows="notes"
       :columns="Columns"
       row-key="name"
       v-model:selected="selected"
       selection="single"
+      dark
       v-if="notes.length > 0"
     >
 
     <template #body-cell-update="props">
       <q-td :props="props">
-        <q-btn dense round flat color="grey" @click="noteSelected(props.rowIndex)" icon="edit"></q-btn>
+        <q-btn dense dark round flat color="grey" @click="noteSelected(props.rowIndex)" icon="edit"></q-btn>
       </q-td>
     </template>
 
     </q-table>
-    <div class="q-mt-md">
+    <div class="q-mt-md" v-if="notes.length < 0">
       Selected: {{ JSON.stringify(selected) }}
     </div>
   </div>
